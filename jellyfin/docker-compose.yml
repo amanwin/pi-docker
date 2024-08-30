@@ -1,0 +1,14 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    network_mode: host
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+    volumes:
+      - /mnt/samsung_t7/jellyfin_videos:/media/videos
+      - ./config:/config
+      - ./cache:/cache
+    restart: unless-stopped
