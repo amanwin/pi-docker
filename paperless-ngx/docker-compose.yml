@@ -1,0 +1,52 @@
+services:
+  broker:
+    image: redis:alpine
+    restart: unless-stopped
+    networks:
+      - paperless-net
+
+  webserver:
+    image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    restart: unless-stopped
+    networks:
+      - paperless-net
+    ports:
+      - 8001:8000
+    volumes:
+      - type: bind
+        source: /mnt/samsung_t7/documents
+        target: /usr/src/paperless/data
+      - type: bind
+        source: /mnt/samsung_t7/documents
+        target: /usr/src/paperless/media/documents
+      - type: bind
+        source: /mnt/samsung_t7/documents
+        target: /usr/src/paperless/media/consume
+    environment:
+      - PAPERLESS_REDIS=redis://broker:6379
+      - PAPERLESS_DBHOST=db
+      - PAPERLESS_DBNAME=paperless
+      - PAPERLESS_DBUSER=paperless
+      - PAPERLESS_DBPASS=paperless
+      - PAPERLESS_TIME_ZONE=UTC
+      - PAPERLESS_DEFAULT_ADMIN_USER=-       # Set the admin username
+      - PAPERLESS_DEFAULT_ADMIN_PASSWORD=-  # Set the admin password
+      - PAPERLESS_DEFAULT_ADMIN_EMAIL=-  # Set the admin email
+
+  db:
+    image: postgres:13-alpine
+    restart: unless-stopped
+    networks:
+      - paperless-net
+    volumes:
+      - paperless-db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=paperless
+      - POSTGRES_USER=paperless
+      - POSTGRES_PASSWORD=paperless
+
+volumes:
+  paperless-db:
+
+networks:
+  paperless-net:
