@@ -1,0 +1,40 @@
+services:
+  postgres:
+    image: postgres:15
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DATABASE=postgres
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  zipline:
+    image: ghcr.io/diced/zipline
+    ports:
+      - '3030:3000'
+    restart: unless-stopped
+    environment:
+      - CORE_RETURN_HTTPS=false
+      - CORE_SECRET=Hanu@O&#9$S(
+      - CORE_HOST=0.0.0.0
+      - CORE_PORT=3000
+      - CORE_DATABASE_URL=postgres://postgres:postgres@postgres/postgres
+      - CORE_LOGGER=true
+      - WEBSITE_SHOW_FILES_PER_USER=false
+      - WEBSITE_SHOW_STATS=false
+      - WEBSITE_SHOW_VERSION=true
+      - WEBSITE_TITLE=AMAN World
+    volumes:
+      - '/mnt/samsung_t7/zipline/uploads:/zipline/uploads'
+      - '/mnt/samsung_t7/zipline/public:/zipline/public'
+    depends_on:
+      - 'postgres'
+
+volumes:
+  pg_data:
