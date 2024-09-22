@@ -1,0 +1,9 @@
+services:
+    server:
+        ports:
+            - 8010:80
+        environment:
+            - TZ=Asia/Calcutta
+        volumes:
+            - /home/amanpi5/docker/gotify/data:/app/data
+        image: gotify/server-arm64
