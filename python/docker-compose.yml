@@ -1,0 +1,7 @@
+services:
+  reminder-checker:
+    image: reminder-checker
+    build: .
+    volumes:
+      - ./Reminder.csv:/app/Reminder.csv
+    container_name: reminder_checker
