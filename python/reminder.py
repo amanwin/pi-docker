@@ -7,7 +7,7 @@ import schedule
 # Constants
 CHECK_INTERVAL_SECONDS = 60  # Frequency to check the schedule (in seconds)
 DUE_DATE_THRESHOLD_DAYS = 10  # Number of days to check ahead for due records
-SCHEDULE_TIME = "00:01"  # Time to run the check (12:01 AM)
+SCHEDULE_TIME = "00:42"  # Time to run the check (12:01 AM)
 
 # Define today's date
 today = datetime.today()
@@ -54,6 +54,7 @@ def check_due_records():
     "priority": 8,
     "title": "Reminder"})
 
+print("Done notifying")
 
 # Schedule the task to run at 12:01 AM every day
 schedule.every().day.at(SCHEDULE_TIME).do(check_due_records)
