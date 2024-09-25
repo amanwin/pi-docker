@@ -7,7 +7,7 @@ import schedule
 # Constants
 CHECK_INTERVAL_SECONDS = 60  # Frequency to check the schedule (in seconds)
 DUE_DATE_THRESHOLD_DAYS = 10  # Number of days to check ahead for due records
-SCHEDULE_TIME = "07:00"  # Time to run the check (07:00 AM)
+SCHEDULE_TIME = "07:20"  # Time to run the check (07:20 AM)
 
 # Define today's date
 today = datetime.today()
@@ -50,7 +50,7 @@ def check_due_records():
     else:
         output += "No reminder due within 10 days."
 
-    resp = requests.post('http://localhost:8010/message?token=AoT-QLFs2C7FXfm', json={
+    resp = requests.post('http://pi5.local:8010/message?token=AoT-QLFs2C7FXfm', json={
     "message": output,
     "priority": 8,
     "title": "Reminder"})
