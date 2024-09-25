@@ -7,7 +7,7 @@ import schedule
 # Constants
 CHECK_INTERVAL_SECONDS = 60  # Frequency to check the schedule (in seconds)
 DUE_DATE_THRESHOLD_DAYS = 10  # Number of days to check ahead for due records
-SCHEDULE_TIME = "00:42"  # Time to run the check (12:01 AM)
+SCHEDULE_TIME = "07:00"  # Time to run the check (07:00 AM)
 
 # Define today's date
 today = datetime.today()
@@ -37,6 +37,7 @@ def check_due_records():
         csvFile = csv.DictReader(file)
         for record in csvFile:
             record_date = parse_date(record["Date"], record['Ignore_Month'])
+            record['Date'] = record_date.strftime('%d-%b-%Y')  # Add/Update parsed date column in each record
             if today <= record_date <= today + timedelta(days=DUE_DATE_THRESHOLD_DAYS):
                 due_soon_records.append(record)
 
@@ -48,8 +49,8 @@ def check_due_records():
             output += f"{idx} Date: {record['Date']}, Name: {record['Name']}, Amount: {record['Amount']} \n"
     else:
         output += "No reminder due within 10 days."
-        
-    resp = requests.post('http://192.168.1.23:8010/message?token=AoT-QLFs2C7FXfm', json={
+
+    resp = requests.post('http://localhost:8010/message?token=AoT-QLFs2C7FXfm', json={
     "message": output,
     "priority": 8,
     "title": "Reminder"})
