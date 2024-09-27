@@ -1,0 +1,17 @@
+services:
+  obsidian:
+    image: lscr.io/linuxserver/obsidian:latest
+    container_name: obsidian
+    security_opt:
+      - seccomp:unconfined #optional1
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Calcutta
+    volumes:
+      - /home/amanpi5/docker/obsidian/config:/config
+    ports:
+      - 3020:3000
+      - 3021:3001
+    shm_size: "1gb"
+    restart: unless-stopped
