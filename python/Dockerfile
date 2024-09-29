@@ -17,4 +17,4 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Make the container execute the Python script when it starts
-CMD ["python", "./reminder.py"]
+CMD ["python", "./reminder_stock_price.py"]
