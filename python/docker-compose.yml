@@ -6,3 +6,4 @@ services:
       - ./Reminder.csv:/app/Reminder.csv
       - ./Ticker.csv:/app/Ticker.csv
     container_name: reminder_checker
+    restart: unless-stopped

@@ -7,3 +7,4 @@ services:
         volumes:
             - /home/amanpi5/docker/gotify/data:/app/data
         image: gotify/server-arm64
+        restart: unless-stopped
